@@ -1,0 +1,19 @@
+{
+  "name": "2048 Fusion",
+  "short_name": "2048 Fusion",
+  "description": "Slide the tiles, merge matching numbers and chase the 2048 tile.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fbf8ee",
+  "theme_color": "#fbf8ee",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

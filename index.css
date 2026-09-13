@@ -1,0 +1,204 @@
+@import "tailwindcss";
+
+:root {
+  --page: #fbf8ee;
+  --band: #ece7d8;
+  --ink: #776e65;
+  --ink-soft: #8f8574;
+  --board: #9c8a76;
+  --cell: rgba(250, 247, 236, 0.18);
+  --panel: #d9d1c0;
+  --panel-deep: #cfc6b3;
+  --panel-hi: #a69883;
+  --chip: #e7e0cb;
+  --chip-line: #e2dbc6;
+  --btn: #d8d0ba;
+  --btn-on: #a2937f;
+  --accent: #e8734a;
+}
+
+[data-theme="plus"] {
+  --board: #413a30;
+  --cell: rgba(255, 255, 255, 0.08);
+}
+
+html {
+  background: var(--page);
+}
+
+body {
+  margin: 0;
+  font-family: "Nunito Sans", "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: var(--page);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.font-display {
+  font-family: "Nunito", "Nunito Sans", sans-serif;
+}
+
+/* ---------- board geometry ---------- */
+.board-surface {
+  container-type: inline-size;
+  background: var(--board);
+  transition: background 0.45s ease;
+}
+.cell-bg {
+  background: var(--cell);
+  transition: background 0.45s ease;
+}
+
+.tile {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3cqw;
+  font-family: "Nunito", sans-serif;
+  font-weight: 800;
+  line-height: 1;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: left 0.14s ease-in-out, top 0.14s ease-in-out;
+  will-change: left, top, transform;
+}
+
+.t-2    { background: #ede4d8; color: #776e65; font-size: 11cqw; }
+.t-4    { background: #ead9b4; color: #776e65; font-size: 11cqw; }
+.t-8    { background: #f2b179; color: #fff; font-size: 11cqw; box-shadow: 0 0 14px 1px rgba(242, 177, 121, 0.35); }
+.t-16   { background: #f18f5b; color: #fff; font-size: 10.5cqw; box-shadow: 0 0 16px 2px rgba(241, 143, 91, 0.4); }
+.t-32   { background: #f07c5c; color: #fff; font-size: 10.5cqw; box-shadow: 0 0 18px 2px rgba(240, 124, 92, 0.45); }
+.t-64   { background: #ee5f3b; color: #fff; font-size: 10.5cqw; box-shadow: 0 0 20px 3px rgba(238, 95, 59, 0.5); }
+.t-128  { background: #edcf72; color: #fff; font-size: 9cqw; box-shadow: 0 0 22px 4px rgba(237, 207, 114, 0.5); }
+.t-256  { background: #edcc61; color: #fff; font-size: 9cqw; box-shadow: 0 0 24px 4px rgba(237, 204, 97, 0.55); }
+.t-512  { background: #edc850; color: #fff; font-size: 9cqw; box-shadow: 0 0 26px 5px rgba(237, 200, 80, 0.55); }
+.t-1024 { background: #edc53f; color: #fff; font-size: 7.2cqw; box-shadow: 0 0 28px 5px rgba(237, 197, 63, 0.6); }
+.t-2048 { background: #edc22e; color: #fff; font-size: 7.2cqw; box-shadow: 0 0 32px 6px rgba(237, 194, 46, 0.65); }
+.t-super{ background: #3c3a32; color: #fff; font-size: 6.4cqw; box-shadow: 0 0 30px 6px rgba(60, 58, 50, 0.5); }
+
+.tile-new    { animation: tile-new 0.22s 0.1s cubic-bezier(0.2, 0.9, 0.3, 1.3) backwards; }
+.tile-merged { animation: tile-merged 0.26s 0.09s cubic-bezier(0.2, 0.9, 0.3, 1.25) backwards; }
+.tile-dying  { z-index: 1 !important; }
+
+.tile-target { cursor: pointer; }
+.tile-target:hover { outline: 3px solid rgba(232, 115, 74, 0.85); outline-offset: 2px; z-index: 5; }
+
+@keyframes tile-new {
+  from { opacity: 0; transform: scale(0.3); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes tile-merged {
+  0%   { opacity: 0; transform: scale(0.2); }
+  55%  { opacity: 1; transform: scale(1.14); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* ---------- ui motion ---------- */
+@keyframes gain-float {
+  0%   { opacity: 0; transform: translate(-50%, 8px); }
+  18%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -34px); }
+}
+.gain-float {
+  animation: gain-float 0.8s ease-out forwards;
+}
+
+@keyframes menu-in {
+  from { opacity: 0; transform: translateY(-12px) scale(0.985); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.menu-in { animation: menu-in 0.28s cubic-bezier(0.2, 0.8, 0.25, 1) both; }
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.rise { animation: rise-in 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+
+@keyframes spin-once { to { transform: rotate(360deg); } }
+.spin-once { animation: spin-once 0.5s ease; }
+
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.overlay-in { animation: overlay-in 0.4s ease both; }
+
+@keyframes overlay-card {
+  from { opacity: 0; transform: scale(0.86); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.overlay-card { animation: overlay-card 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2) both; }
+
+@keyframes targeting-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(232, 115, 74, 0.45); }
+  50%      { box-shadow: 0 0 0 10px rgba(232, 115, 74, 0); }
+}
+.targeting-pulse { animation: targeting-pulse 1.4s ease-out infinite; }
+
+@keyframes band-drift {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+.top-band {
+  background:
+    radial-gradient(120% 160% at 50% -40%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 60%),
+    linear-gradient(100deg, #ece7d8 0%, #e7e1cf 30%, #efe9da 55%, #e9e3d1 80%, #ece7d8 100%);
+  background-size: 100% 100%, 220% 100%;
+  animation: band-drift 18s linear infinite alternate;
+}
+
+/* motion preference kill-switch driven by the in-game settings panel */
+[data-motion="off"] *,
+[data-motion="off"] *::before,
+[data-motion="off"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* ---------- scroll reveal ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- accessibility & polish ---------- */
+:focus-visible {
+  outline: 3px solid #e8734a;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+/* merged-away tiles fade out under the new tile instead of lingering */
+.tile-dying {
+  animation: tile-dying 0.18s ease-out forwards;
+}
+@keyframes tile-dying {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
